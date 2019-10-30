@@ -1,0 +1,52 @@
+/*
+ *
+ * Intel Management Engine Interface (Intel MEI) Linux driver
+ * Copyright (c) 2003-2011, Intel Corporation.
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms and conditions of the GNU General Public License,
+ * version 2, as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ */
+#ifndef _MEI_BACKPORT_H_
+#define _MEI_BACKPORT_H_
+
+#include <linux/version.h>
+#include <linux/err.h>
+
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 35)
+#include <linux/uuid.h>
+#else
+#include "uuid.h"
+#endif
+
+
+#if LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 33)
+
+/* Bit map operations */
+/* taken from lib/bitmap.h - linux kernel 2.6.38 */
+#define BITMAP_FIRST_WORD_MASK(start) (~0UL << ((start) % BITS_PER_LONG))
+void bitmap_set(unsigned long *map, int start, int nr);
+
+/*** Error Handling ***/
+/* Taken from include/linux/err.h - linux kernel 2.6.38*/
+#if 0	// fred: dummy
+static inline long __must_check IS_ERR_OR_NULL(const void *ptr)
+{
+	return !ptr || IS_ERR_VALUE((unsigned long)ptr);
+}
+#endif
+
+#endif
+
+#if LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 34)
+#define for_each_set_bit for_each_bit
+#endif
+
+
+#endif
