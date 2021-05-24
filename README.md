@@ -9,3 +9,4 @@ How to install
     sudo rmmod mei_me
     sudo rmmod mei
     sudo modprobe mei
+    sudo bash -c 'sudo echo -e "\n# replaced with OCP mei\nblacklist mei_me" >> /etc/modprobe.d/blacklist.conf'
